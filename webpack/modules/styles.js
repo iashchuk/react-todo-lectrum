@@ -25,7 +25,7 @@ export const loadPostCSS = () => ({
                     skipDuplicates: true,
                 }),
                 modules({
-                    mode: loader.resourcePath.includes('.m.css')
+                    mode: loader.resourcePath.includes('.md.css')
                         ? 'local'
                         : 'global',
                 }),
