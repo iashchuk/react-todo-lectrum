@@ -1,5 +1,5 @@
-@import '../../theme/palette';
-@import '../../theme/breakpoints';
+@import "../../theme/palette";
+@import "../../theme/breakpoints";
 
 .scheduler {
     display: flex;
@@ -32,7 +32,7 @@
             & input {
                 width: 215px;
                 height: 42px !important;
-                background-image: url('../../theme/assets/search-icon.svg');
+                background-image: url("../../theme/assets/search-icon.svg");
                 background-repeat: no-repeat;
                 background-size: 18px 18px;
                 background-position: 95% 50%;
@@ -75,7 +75,7 @@
                 justify-content: space-between;
                 margin: 0 0 13px;
 
-                & input[type='text'] {
+                & input[type="text"] {
                     width: 100%;
                     margin-right: 22px;
                 }
@@ -90,7 +90,7 @@
                     color: var(--paletteColor2);
                     border: 0;
                     cursor: pointer;
-                    background-image: url('../../theme/assets/plus-icon.svg');
+                    background-image: url("../../theme/assets/plus-icon.svg");
                     background-repeat: no-repeat;
                     background-size: 18px 18px;
                     background-position: 6% 50%;
@@ -160,7 +160,7 @@
                     flex-direction: column;
                     margin: 0 0 13px;
 
-                    & input[type='text'] {
+                    & input[type="text"] {
                         width: 100%;
                         margin-bottom: 12px;
                     }

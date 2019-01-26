@@ -1,15 +1,42 @@
 // Core
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // Instruments
-import Styles from './styles.m.css';
-import { api } from '../../REST'; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
+import Styles from "./styles.md.css";
+import { api, data } from "../../REST"; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
+
+// Components
+import Form from "../Form";
+import Title from "../Title";
+import Search from "../Search";
+import CompleteIndicator from "../CompleteIndicator";
+import TodoList from "../TodoList";
+
+const APP_NAME = "Планировщик задач";
 
 export default class Scheduler extends Component {
+    state = {
+        tasks: data,
+    };
+
     render () {
+        const { tasks } = this.state;
+
         return (
             <section className = { Styles.scheduler }>
-                Планировщик: стартовая точка
+                <main>
+                    <header>
+                        <Title text = { APP_NAME } />
+                        <Search />
+                    </header>
+                    <section>
+                        <Form />
+                        <TodoList tasks = { tasks } />
+                    </section>
+                    <footer>
+                        <CompleteIndicator />
+                    </footer>
+                </main>
             </section>
         );
     }
