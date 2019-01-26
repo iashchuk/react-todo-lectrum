@@ -1,4 +1,4 @@
-@import '../../theme/breakpoints';
+@import "../../theme/breakpoints";
 
 .task {
     position: relative;
@@ -33,7 +33,7 @@
             margin-right: 1.9rem;
         }
 
-        & input[type='text'] {
+        & input[type="text"] {
             width: 100%;
             border-color: transparent;
 
@@ -72,7 +72,7 @@
     color: var(--paletteColor9);
 
     & .content {
-        & input[type='text'] {
+        & input[type="text"] {
             background-color: var(--paletteColor8);
         }
     }
