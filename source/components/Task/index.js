@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 
 // Instruments
 import Styles from './styles.md.css';
+import cx from 'classnames';
 
 // Components
 import Checkbox from '../../theme/assets/Checkbox';
@@ -28,16 +29,18 @@ export default class Task extends PureComponent {
     });
 
     render () {
-        const { message, onDelete } = this.props;
+        const { message, completed, onDelete, onDone } = this.props;
 
         return (
-            <li className = { Styles.task }>
+            <li className = { cx(Styles.task, { [Styles.completed]: completed }) }>
                 <div className = { Styles.content }>
                     <Checkbox
                         inlineBlock
+                        checked = { completed }
                         className = { Styles.toggleTaskCompletedState }
                         color1 = { PALETTE_COLOR_3 }
                         color2 = { PALETTE_COLOR_2 }
+                        onClick = { onDone }
                     />
                     <input disabled type = 'text' value = { message } />
                 </div>

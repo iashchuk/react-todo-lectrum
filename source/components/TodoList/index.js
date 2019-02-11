@@ -6,13 +6,18 @@ import Task from '../Task';
 
 export default class TodoList extends Component {
     render () {
-        const { tasks, onDelete } = this.props;
+        const { tasks, onDelete, onDone } = this.props;
 
         const todoList = tasks.map((task) => {
             const { id, ...taskProps } = task;
 
             return (
-                <Task key = { id } { ...taskProps } onDelete = { () => onDelete(id) } />
+                <Task
+                    key = { id }
+                    { ...taskProps }
+                    onDelete = { () => onDelete(id) }
+                    onDone = { () => onDone(id) }
+                />
             );
         });
 

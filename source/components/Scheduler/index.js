@@ -33,6 +33,14 @@ export default class Scheduler extends Component {
         });
     };
 
+    onDone = (id) => {
+        this.setState((prevState) => ({
+            tasks: prevState.tasks.map((task) =>
+                task.id === id ? { ...task, completed: !task.completed } : task
+            ),
+        }));
+    };
+
     render () {
         const { tasks } = this.state;
 
@@ -45,7 +53,11 @@ export default class Scheduler extends Component {
                     </header>
                     <section>
                         <Form onAdd = { this.onAdd } />
-                        <TodoList tasks = { tasks } onDelete = { this.onDelete } />
+                        <TodoList
+                            tasks = { tasks }
+                            onDelete = { this.onDelete }
+                            onDone = { this.onDone }
+                        />
                     </section>
                     <footer>
                         <CompleteIndicator />
