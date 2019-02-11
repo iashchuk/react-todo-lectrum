@@ -25,6 +25,14 @@ export default class Scheduler extends Component {
         this.setState({ tasks: [task, ...tasks]});
     };
 
+    onDelete = (id) => {
+        const { tasks } = this.state;
+
+        return this.setState({
+            tasks: tasks.filter((task) => task.id !== id),
+        });
+    };
+
     render () {
         const { tasks } = this.state;
 
@@ -37,7 +45,7 @@ export default class Scheduler extends Component {
                     </header>
                     <section>
                         <Form onAdd = { this.onAdd } />
-                        <TodoList tasks = { tasks } />
+                        <TodoList tasks = { tasks } onDelete = { this.onDelete } />
                     </section>
                     <footer>
                         <CompleteIndicator />

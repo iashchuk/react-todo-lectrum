@@ -1,18 +1,18 @@
 // Core
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
 // Instruments
-import Styles from "./styles.md.css";
+import Styles from './styles.md.css';
 
 // Components
-import Checkbox from "../../theme/assets/Checkbox";
-import Remove from "../../theme/assets/Remove";
-import Edit from "../../theme/assets/Edit";
-import Star from "../../theme/assets/Star";
+import Checkbox from '../../theme/assets/Checkbox';
+import Remove from '../../theme/assets/Remove';
+import Edit from '../../theme/assets/Edit';
+import Star from '../../theme/assets/Star';
 
-const PALETTE_COLOR_1 = "#000";
-const PALETTE_COLOR_2 = "#fff";
-const PALETTE_COLOR_3 = "#3b8ef3";
+const PALETTE_COLOR_1 = '#000';
+const PALETTE_COLOR_2 = '#fff';
+const PALETTE_COLOR_3 = '#3b8ef3';
 
 export default class Task extends PureComponent {
     _getTaskShape = ({
@@ -28,7 +28,7 @@ export default class Task extends PureComponent {
     });
 
     render () {
-        const { message } = this.props;
+        const { message, onDelete } = this.props;
 
         return (
             <li className = { Styles.task }>
@@ -60,6 +60,7 @@ export default class Task extends PureComponent {
                         inlineBlock
                         color1 = { PALETTE_COLOR_3 }
                         color2 = { PALETTE_COLOR_1 }
+                        onClick = { onDelete }
                     />
                 </div>
             </li>
