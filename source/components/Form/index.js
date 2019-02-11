@@ -16,7 +16,7 @@ class Form extends Component {
         evt.preventDefault();
         onAdd({
             id:        Date.now(),
-            message,
+            message:   message.trim(),
             completed: false,
             favorite:  false,
         });

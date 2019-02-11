@@ -19,6 +19,14 @@ export default class Scheduler extends Component {
         tasks: data,
     };
 
+    updateTask = (id, message) => {
+        this.setState((prevState) => ({
+            tasks: prevState.tasks.map((task) =>
+                task.id === id ? { ...task, message } : task
+            ),
+        }));
+    };
+
     onAdd = (task) => {
         const { tasks } = this.state;
 
@@ -63,6 +71,7 @@ export default class Scheduler extends Component {
                         <Form onAdd = { this.onAdd } />
                         <TodoList
                             tasks = { tasks }
+                            updateTask = { this.updateTask }
                             onDelete = { this.onDelete }
                             onDone = { this.onDone }
                             onFavorite = { this.onFavorite }
