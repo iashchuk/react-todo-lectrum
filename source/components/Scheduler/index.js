@@ -41,6 +41,14 @@ export default class Scheduler extends Component {
         }));
     };
 
+    onFavorite = (id) => {
+        this.setState((prevState) => ({
+            tasks: prevState.tasks.map((task) =>
+                task.id === id ? { ...task, favorite: !task.favorite } : task
+            ),
+        }));
+    };
+
     render () {
         const { tasks } = this.state;
 
@@ -57,6 +65,7 @@ export default class Scheduler extends Component {
                             tasks = { tasks }
                             onDelete = { this.onDelete }
                             onDone = { this.onDone }
+                            onFavorite = { this.onFavorite }
                         />
                     </section>
                     <footer>
