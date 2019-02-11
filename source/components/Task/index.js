@@ -34,6 +34,15 @@ export default class Task extends PureComponent {
         this.setState({ isEdit });
     };
 
+    cancelUpdateTask = () => {
+        const { message } = this.props;
+
+        this.setState({
+            isEdit:     false,
+            newMessage: message,
+        });
+    };
+
     onEditChange = (evt) => {
         this.setState({ newMessage: evt.target.value });
     };
@@ -44,6 +53,14 @@ export default class Task extends PureComponent {
 
         updateTask(id, newMessage.trim());
         this.toggleEdit(!isEdit);
+    };
+
+    onKeyDown = (evt, id) => {
+        if (evt.key === 'Enter') {
+            this.onEditClick(id);
+        } else if (evt.key === 'Escape') {
+            this.cancelUpdateTask();
+        }
     };
 
     render () {
@@ -75,6 +92,7 @@ export default class Task extends PureComponent {
                         type = 'text'
                         value = { newMessage }
                         onChange = { this.onEditChange }
+                        onKeyDown = { (evt) => this.onKeyDown(evt, id) }
                     />
                 </div>
                 <div className = { Styles.actions }>
