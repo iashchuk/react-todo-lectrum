@@ -17,7 +17,8 @@ const APP_NAME = 'Планировщик задач';
 
 export default class Scheduler extends Component {
     state = {
-        tasks: data,
+        tasks:  data,
+        search: '',
     };
 
     updateTask = (id, message) => {
@@ -28,6 +29,16 @@ export default class Scheduler extends Component {
                 )
             ),
         }));
+    };
+
+    searchTask = (tasks, search) => {
+        if (!search.length) {
+            return tasks;
+        }
+
+        return tasks.filter((task) => {
+            return task.message.toLowerCase().includes(search.toLowerCase());
+        });
     };
 
     onAdd = (task) => {
@@ -68,20 +79,25 @@ export default class Scheduler extends Component {
         }));
     };
 
+    onSearchChange = (search) => {
+        this.setState({ search });
+    };
+
     render () {
-        const { tasks } = this.state;
+        const { tasks, search } = this.state;
+        const searchTasks = this.searchTask(tasks, search);
 
         return (
             <section className = { Styles.scheduler }>
                 <main>
                     <header>
                         <Title text = { APP_NAME } />
-                        <Search />
+                        <Search onSearchChange = { this.onSearchChange } />
                     </header>
                     <section>
                         <Form onAdd = { this.onAdd } />
                         <TodoList
-                            tasks = { tasks }
+                            tasks = { searchTasks }
                             updateTask = { this.updateTask }
                             onDelete = { this.onDelete }
                             onDone = { this.onDone }
