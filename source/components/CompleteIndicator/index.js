@@ -11,10 +11,12 @@ const PALETTE_COLOR_6 = '#363636';
 
 class CompleteIndicator extends Component {
     render () {
+        const { onComplete } = this.props;
+
         return (
             <Fragment>
                 <Checkbox
-                    checked = { false }
+                    checked = { onComplete() }
                     color1 = { PALETTE_COLOR_6 }
                     color2 = { PALETTE_COLOR_2 }
                 />
