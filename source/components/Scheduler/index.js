@@ -83,10 +83,20 @@ export default class Scheduler extends Component {
         this.setState({ search });
     };
 
-    onComplete = () => {
+    isCompleteAllTasks = () => {
         const { tasks } = this.state;
 
         return tasks.every((task) => task.completed);
+    };
+
+    onCompleteAllTasks = () => {
+        this.setState((prevState) => ({
+            tasks: prevState.tasks.map((task) => {
+                task.completed = true;
+
+                return task;
+            }),
+        }));
     };
 
     render () {
@@ -111,7 +121,10 @@ export default class Scheduler extends Component {
                         />
                     </section>
                     <footer>
-                        <CompleteIndicator onComplete = { this.onComplete } />
+                        <CompleteIndicator
+                            isCompleteAllTasks = { this.isCompleteAllTasks }
+                            onCompleteAllTasks = { this.onCompleteAllTasks }
+                        />
                     </footer>
                 </main>
             </section>

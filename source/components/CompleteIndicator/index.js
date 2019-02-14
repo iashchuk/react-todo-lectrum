@@ -11,14 +11,15 @@ const PALETTE_COLOR_6 = '#363636';
 
 class CompleteIndicator extends Component {
     render () {
-        const { onComplete } = this.props;
+        const { isCompleteAllTasks, onCompleteAllTasks } = this.props;
 
         return (
             <Fragment>
                 <Checkbox
-                    checked = { onComplete() }
+                    checked = { isCompleteAllTasks() }
                     color1 = { PALETTE_COLOR_6 }
                     color2 = { PALETTE_COLOR_2 }
+                    onClick = { onCompleteAllTasks }
                 />
                 <span className = { Styles.completeAllTasks }>
                     Все задачи выполнены
