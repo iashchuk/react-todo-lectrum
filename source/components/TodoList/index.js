@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import Move from 'react-flip-move';
 
 // Components
 import Task from '../Task';
@@ -24,6 +25,12 @@ export default class TodoList extends Component {
             );
         });
 
-        return <ul>{todoList}</ul>;
+        return (
+            <ul>
+                <Move duration = { 400 } easing = 'ease-in-out'>
+                    {todoList}
+                </Move>
+            </ul>
+        );
     }
 }
