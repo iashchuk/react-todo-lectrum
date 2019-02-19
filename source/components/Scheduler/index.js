@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // Instruments
 import Styles from './styles.md.css';
-import { api, data } from '../../REST'; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
+import { api } from '../../REST'; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
 import { sortTasksByGroup } from '../../instruments';
 
 // Components
@@ -18,10 +18,23 @@ const APP_NAME = 'Планировщик задач';
 
 export default class Scheduler extends Component {
     state = {
-        tasks:     data,
+        tasks:     [],
         search:    '',
         isLoading: true,
     };
+
+    async componentDidMount () {
+        this.setState({
+            isLoading: true,
+        });
+
+        const data = await api.getData();
+
+        this.setState({
+            tasks:     data,
+            isLoading: false,
+        });
+    }
 
     updateTask = (id, message) => {
         this.setState((prevState) => ({
