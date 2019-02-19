@@ -31,7 +31,9 @@ export const api = {
         const responseStatus = await checkStatus(response);
         const responseData = await toJSON(responseStatus);
 
-        return responseData.data;
+        const { data } = await responseData;
+
+        return data;
     },
 
     onAdd: async (task) => {
@@ -43,7 +45,9 @@ export const api = {
         const responseStatus = await checkStatus(response);
         const responseData = await toJSON(responseStatus);
 
-        return responseData.data;
+        const { data } = await responseData;
+
+        return data;
     },
 
     onDelete: async (id) => {
@@ -53,5 +57,22 @@ export const api = {
         });
 
         await checkStatus(response);
+    },
+
+    onUpdate: async (task) => {
+        const response = await fetch(MAIN_URL, {
+            method: 'PUT',
+            headers,
+            body:   JSON.stringify([task]),
+        });
+
+        const responseStatus = await checkStatus(response);
+        const responseData = await toJSON(responseStatus);
+
+        const {
+            data: [updatedTask],
+        } = await responseData;
+
+        return updatedTask;
     },
 };

@@ -23,6 +23,18 @@ export default class Task extends PureComponent {
 
     messageRef = React.createRef();
 
+    _getTaskShape = ({
+        id = this.props.id,
+        completed = this.props.completed,
+        favorite = this.props.favorite,
+        message = this.props.message,
+    }) => ({
+        id,
+        completed,
+        favorite,
+        message,
+    });
+
     toggleEdit = (isEdit) => {
         const input = this.messageRef.current;
 
@@ -49,10 +61,23 @@ export default class Task extends PureComponent {
 
     onEditClick = (id) => {
         const { isEdit, newMessage } = this.state;
-        const { updateTask } = this.props;
+        const { onUpdate } = this.props;
 
-        updateTask(id, newMessage.trim());
+        onUpdate(this._getTaskShape({ id, message: newMessage.trim() }));
+
         this.toggleEdit(!isEdit);
+    };
+
+    onDoneClick = (id) => {
+        const { onUpdate, completed } = this.props;
+
+        onUpdate(this._getTaskShape({ id, completed: !completed }));
+    };
+
+    onFavoriteClick = (id) => {
+        const { onUpdate, favorite } = this.props;
+
+        onUpdate(this._getTaskShape({ id, favorite: !favorite }));
     };
 
     onKeyDown = (evt, id) => {
@@ -66,14 +91,7 @@ export default class Task extends PureComponent {
     render () {
         const { newMessage, isEdit } = this.state;
 
-        const {
-            id,
-            completed,
-            favorite,
-            onDelete,
-            onDone,
-            onFavorite,
-        } = this.props;
+        const { id, completed, favorite, onDelete } = this.props;
 
         return (
             <li className = { cx(Styles.task, { [Styles.completed]: completed }) }>
@@ -84,7 +102,7 @@ export default class Task extends PureComponent {
                         className = { Styles.toggleTaskCompletedState }
                         color1 = { PALETTE_COLOR_3 }
                         color2 = { PALETTE_COLOR_2 }
-                        onClick = { onDone }
+                        onClick = { () => this.onDoneClick(id) }
                     />
                     <input
                         disabled = { !isEdit }
@@ -102,7 +120,7 @@ export default class Task extends PureComponent {
                         className = { Styles.toggleTaskFavoriteState }
                         color1 = { PALETTE_COLOR_3 }
                         color2 = { PALETTE_COLOR_1 }
-                        onClick = { onFavorite }
+                        onClick = { () => this.onFavoriteClick(id) }
                     />
                     <Edit
                         inlineBlock

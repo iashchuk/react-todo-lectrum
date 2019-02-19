@@ -32,23 +32,13 @@ export default class Scheduler extends Component {
             const data = await api.getData();
 
             this.setState({
-                tasks:     data,
+                tasks:     sortTasksByGroup(data),
                 isLoading: false,
             });
         } catch (error) {
             console.error(error);
         }
     }
-
-    updateTask = (id, message) => {
-        this.setState((prevState) => ({
-            tasks: sortTasksByGroup(
-                prevState.tasks.map((task) =>
-                    task.id === id ? { ...task, message } : task
-                )
-            ),
-        }));
-    };
 
     searchTask = (tasks, search) => {
         if (!search.length) {
@@ -96,27 +86,20 @@ export default class Scheduler extends Component {
         }
     };
 
-    onDone = (id) => {
-        this.setState((prevState) => ({
-            tasks: sortTasksByGroup(
-                prevState.tasks.map((task) =>
-                    task.id === id
-                        ? { ...task, completed: !task.completed }
-                        : task
-                )
-            ),
-        }));
-    };
+    onUpdate = async (updatedTask) => {
+        this.setState({
+            isLoading: true,
+        });
 
-    onFavorite = (id) => {
+        const { id } = await api.onUpdate(updatedTask);
+
         this.setState((prevState) => ({
             tasks: sortTasksByGroup(
                 prevState.tasks.map((task) =>
-                    task.id === id
-                        ? { ...task, favorite: !task.favorite }
-                        : task
+                    task.id === id ? updatedTask : task
                 )
             ),
+            isLoading: false,
         }));
     };
 
@@ -156,10 +139,8 @@ export default class Scheduler extends Component {
                         <Form onAdd = { this.onAdd } />
                         <TodoList
                             tasks = { searchTasks }
-                            updateTask = { this.updateTask }
                             onDelete = { this.onDelete }
-                            onDone = { this.onDone }
-                            onFavorite = { this.onFavorite }
+                            onUpdate = { this.onUpdate }
                         />
                     </section>
                     <footer>
