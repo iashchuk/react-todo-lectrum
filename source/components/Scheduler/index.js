@@ -12,13 +12,15 @@ import Title from '../Title';
 import Search from '../Search';
 import CompleteIndicator from '../CompleteIndicator';
 import TodoList from '../TodoList';
+import Spinner from '../Spinner';
 
 const APP_NAME = 'Планировщик задач';
 
 export default class Scheduler extends Component {
     state = {
-        tasks:  data,
-        search: '',
+        tasks:     data,
+        search:    '',
+        isLoading: true,
     };
 
     updateTask = (id, message) => {
@@ -100,11 +102,12 @@ export default class Scheduler extends Component {
     };
 
     render () {
-        const { tasks, search } = this.state;
+        const { tasks, search, isLoading } = this.state;
         const searchTasks = this.searchTask(tasks, search);
 
         return (
             <section className = { Styles.scheduler }>
+                <Spinner isLoading = { isLoading } />
                 <main>
                     <header>
                         <Title text = { APP_NAME } />
