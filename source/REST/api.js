@@ -45,4 +45,13 @@ export const api = {
 
         return responseData.data;
     },
+
+    onDelete: async (id) => {
+        const response = await fetch(`${MAIN_URL}/${id}`, {
+            method: 'DELETE',
+            headers,
+        });
+
+        await checkStatus(response);
+    },
 };

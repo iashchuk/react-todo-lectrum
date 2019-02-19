@@ -24,16 +24,20 @@ export default class Scheduler extends Component {
     };
 
     async componentDidMount () {
-        this.setState({
-            isLoading: true,
-        });
+        try {
+            this.setState({
+                isLoading: true,
+            });
 
-        const data = await api.getData();
+            const data = await api.getData();
 
-        this.setState({
-            tasks:     data,
-            isLoading: false,
-        });
+            this.setState({
+                tasks:     data,
+                isLoading: false,
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     updateTask = (id, message) => {
@@ -57,26 +61,39 @@ export default class Scheduler extends Component {
     };
 
     onAdd = async (message) => {
-        const { tasks } = this.state;
+        try {
+            const { tasks } = this.state;
 
-        this.setState({
-            isLoading: true,
-        });
+            this.setState({
+                isLoading: true,
+            });
 
-        const task = await api.onAdd(message);
+            const task = await api.onAdd(message);
 
-        this.setState({
-            tasks:     sortTasksByGroup([task, ...tasks]),
-            isLoading: false,
-        });
+            this.setState({
+                tasks:     sortTasksByGroup([task, ...tasks]),
+                isLoading: false,
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    onDelete = (id) => {
-        const { tasks } = this.state;
+    onDelete = async (id) => {
+        try {
+            this.setState({
+                isLoading: true,
+            });
 
-        return this.setState({
-            tasks: tasks.filter((task) => task.id !== id),
-        });
+            await api.onDelete(id);
+
+            this.setState((prevState) => ({
+                tasks:     prevState.tasks.filter((task) => task.id !== id),
+                isLoading: false,
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     onDone = (id) => {
