@@ -33,4 +33,16 @@ export const api = {
 
         return responseData.data;
     },
+
+    onAdd: async (task) => {
+        const response = await fetch(MAIN_URL, {
+            method: 'POST',
+            headers,
+            body:   JSON.stringify(task),
+        });
+        const responseStatus = await checkStatus(response);
+        const responseData = await toJSON(responseStatus);
+
+        return responseData.data;
+    },
 };

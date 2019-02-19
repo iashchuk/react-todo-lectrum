@@ -56,10 +56,19 @@ export default class Scheduler extends Component {
         });
     };
 
-    onAdd = (task) => {
+    onAdd = async (message) => {
         const { tasks } = this.state;
 
-        this.setState({ tasks: sortTasksByGroup([task, ...tasks]) });
+        this.setState({
+            isLoading: true,
+        });
+
+        const task = await api.onAdd(message);
+
+        this.setState({
+            tasks:     sortTasksByGroup([task, ...tasks]),
+            isLoading: false,
+        });
     };
 
     onDelete = (id) => {
