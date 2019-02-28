@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // Instruments
 import Styles from './styles.md.css';
-import { api } from '../../REST'; // ! Импорт модуля API должен иметь именно такой вид (import { api } from '../../REST')
+import { api } from '../../REST';
 import { sortTasksByGroup } from '../../instruments';
 
 // Components
@@ -86,17 +86,17 @@ export default class Scheduler extends Component {
         }
     };
 
-    onUpdate = async (updatedTask) => {
+    onUpdate = async (changedTask) => {
         this.setState({
             isLoading: true,
         });
 
-        const { id } = await api.onUpdate(updatedTask);
+        const [updatedTask] = await api.onUpdate([changedTask]);
 
         this.setState((prevState) => ({
             tasks: sortTasksByGroup(
                 prevState.tasks.map((task) =>
-                    task.id === id ? updatedTask : task
+                    task.id === updatedTask.id ? updatedTask : task
                 )
             ),
             isLoading: false,
@@ -113,14 +113,23 @@ export default class Scheduler extends Component {
         return tasks.every((task) => task.completed);
     };
 
-    onCompleteAllTasks = () => {
-        this.setState((prevState) => ({
-            tasks: prevState.tasks.map((task) => {
-                task.completed = true;
+    onCompleteAllTasks = async () => {
+        this.setState({
+            isLoading: true,
+        });
 
-                return task;
-            }),
-        }));
+        const completedTasks = this.state.tasks.map((task) => {
+            task.completed = true;
+
+            return task;
+        });
+
+        const updatedTasks = await api.onUpdate(completedTasks);
+
+        this.setState({
+            tasks:     sortTasksByGroup(updatedTasks),
+            isLoading: false,
+        });
     };
 
     render () {
