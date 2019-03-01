@@ -6,7 +6,7 @@ class Form extends Component {
     };
 
     onChange = (evt) => {
-        this.setState({ [evt.target.name]: evt.target.value });
+        this.setState({ [evt.target.name]: evt.target.value.trim() });
     };
 
     onSubmit = (evt) => {
@@ -16,7 +16,7 @@ class Form extends Component {
         evt.preventDefault();
         onAdd({
             id:        Date.now(),
-            message:   message.trim(),
+            message,
             completed: false,
             favorite:  false,
         });
