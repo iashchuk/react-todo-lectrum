@@ -71,5 +71,25 @@ export const api = {
         const { data } = await responseData;
 
         return data;
-    }
+    },
+
+    completeAllTasks: async (tasks) => {
+        const response = tasks.map((task) => {
+            return fetch(MAIN_URL, {
+                method: 'PUT',
+                headers,
+                body:   JSON.stringify([task]),
+            });
+        });
+
+        await Promise.all(response)
+            .then((resolve) => {
+                resolve.forEach((item) => {
+                    if (item.status !== 200) {
+                        throw new Error('Tasks were not updated.');
+                    }
+                });
+            })
+            .catch((error) => `${error.message}`);
+    },
 };
