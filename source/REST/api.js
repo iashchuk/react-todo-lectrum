@@ -23,7 +23,7 @@ const checkStatus = (response) => {
 const toJSON = (response) => response.json();
 
 export const api = {
-    getData: async () => {
+    fetchTasks: async () => {
         const response = await fetch(MAIN_URL, {
             method: 'GET',
             headers,
@@ -36,7 +36,7 @@ export const api = {
         return tasks;
     },
 
-    onAdd: async (task) => {
+    createTask: async (task) => {
         const response = await fetch(MAIN_URL, {
             method: 'POST',
             headers,
@@ -50,7 +50,7 @@ export const api = {
         return data;
     },
 
-    onDelete: async (id) => {
+    removeTask: async (id) => {
         const response = await fetch(`${MAIN_URL}/${id}`, {
             method: 'DELETE',
             headers,
@@ -59,7 +59,7 @@ export const api = {
         await checkStatus(response);
     },
 
-    onUpdate: async (tasks) => {
+    updateTask: async (tasks) => {
         const response = await fetch(MAIN_URL, {
             method: 'PUT',
             headers,
@@ -71,5 +71,5 @@ export const api = {
         const { data } = await responseData;
 
         return data;
-    },
+    }
 };

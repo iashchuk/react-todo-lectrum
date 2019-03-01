@@ -29,7 +29,7 @@ export default class Scheduler extends Component {
                 isLoading: true,
             });
 
-            const data = await api.getData();
+            const data = await api.fetchTasks();
 
             this.setState({
                 tasks:     sortTasksByGroup(data),
@@ -58,7 +58,7 @@ export default class Scheduler extends Component {
                 isLoading: true,
             });
 
-            const task = await api.onAdd(message);
+            const task = await api.createTask(message);
 
             this.setState({
                 tasks:     sortTasksByGroup([task, ...tasks]),
@@ -75,7 +75,7 @@ export default class Scheduler extends Component {
                 isLoading: true,
             });
 
-            await api.onDelete(id);
+            await api.removeTask(id);
 
             this.setState((prevState) => ({
                 tasks:     prevState.tasks.filter((task) => task.id !== id),
@@ -91,7 +91,7 @@ export default class Scheduler extends Component {
             isLoading: true,
         });
 
-        const [updatedTask] = await api.onUpdate([changedTask]);
+        const [updatedTask] = await api.updateTask([changedTask]);
 
         this.setState((prevState) => ({
             tasks: sortTasksByGroup(
@@ -124,7 +124,7 @@ export default class Scheduler extends Component {
             return task;
         });
 
-        const updatedTasks = await api.onUpdate(completedTasks);
+        const updatedTasks = await api.updateTask(completedTasks);
 
         this.setState({
             tasks:     sortTasksByGroup(updatedTasks),
