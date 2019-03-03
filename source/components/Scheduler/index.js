@@ -18,22 +18,22 @@ const APP_NAME = 'Планировщик задач';
 
 export default class Scheduler extends Component {
     state = {
-        tasks:     [],
-        search:    '',
-        isLoading: true,
+        tasks:      [],
+        search:     '',
+        isSpinning: true,
     };
 
     async componentDidMount () {
         try {
             this.setState({
-                isLoading: true,
+                isSpinning: true,
             });
 
             const data = await api.fetchTasks();
 
             this.setState({
-                tasks:     sortTasksByGroup(data),
-                isLoading: false,
+                tasks:      sortTasksByGroup(data),
+                isSpinning: false,
             });
         } catch (error) {
             console.error(error);
@@ -55,14 +55,14 @@ export default class Scheduler extends Component {
             const { tasks } = this.state;
 
             this.setState({
-                isLoading: true,
+                isSpinning: true,
             });
 
             const task = await api.createTask(message);
 
             this.setState({
-                tasks:     sortTasksByGroup([task, ...tasks]),
-                isLoading: false,
+                tasks:      sortTasksByGroup([task, ...tasks]),
+                isSpinning: false,
             });
         } catch (error) {
             console.error(error);
@@ -72,14 +72,14 @@ export default class Scheduler extends Component {
     onDelete = async (id) => {
         try {
             this.setState({
-                isLoading: true,
+                isSpinning: true,
             });
 
             await api.removeTask(id);
 
             this.setState((prevState) => ({
-                tasks:     prevState.tasks.filter((task) => task.id !== id),
-                isLoading: false,
+                tasks:      prevState.tasks.filter((task) => task.id !== id),
+                isSpinning: false,
             }));
         } catch (error) {
             console.error(error);
@@ -88,7 +88,7 @@ export default class Scheduler extends Component {
 
     onUpdate = async (changedTask) => {
         this.setState({
-            isLoading: true,
+            isSpinning: true,
         });
 
         const [updatedTask] = await api.updateTask([changedTask]);
@@ -99,7 +99,7 @@ export default class Scheduler extends Component {
                     task.id === updatedTask.id ? updatedTask : task
                 )
             ),
-            isLoading: false,
+            isSpinning: false,
         }));
     };
 
@@ -117,7 +117,7 @@ export default class Scheduler extends Component {
         const { tasks } = this.state;
 
         this.setState({
-            isLoading: true,
+            isSpinning: true,
         });
 
         const completedTasks = await tasks.map((task) => {
@@ -134,17 +134,17 @@ export default class Scheduler extends Component {
 
                 return task;
             }),
-            isLoading: false,
+            isSpinning: false,
         }));
     };
 
     render () {
-        const { tasks, search, isLoading } = this.state;
+        const { tasks, search, isSpinning } = this.state;
         const searchTasks = this.searchTask(tasks, search);
 
         return (
             <section className = { Styles.scheduler }>
-                <Spinner isLoading = { isLoading } />
+                <Spinner isSpinning = { isSpinning } />
                 <main>
                     <header>
                         <Title text = { APP_NAME } />

@@ -6,8 +6,8 @@ import Styles from './styles.md.css';
 
 export default class Spinner extends Component {
     render () {
-        const { isLoading } = this.props;
+        const { isSpinning } = this.props;
 
-        return isLoading ? <div className = { Styles.spinner } /> : null;
+        return isSpinning ? <div className = { Styles.spinner } /> : null;
     }
 }
