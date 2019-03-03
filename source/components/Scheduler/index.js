@@ -12,6 +12,9 @@ import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
 import Spinner from '../Spinner';
 
+const PALETTE_COLOR_2 = '#fff';
+const PALETTE_COLOR_7 = '#363636';
+
 export default class Scheduler extends Component {
     state = {
         tasks:           [],
@@ -215,8 +218,8 @@ export default class Scheduler extends Component {
                     <footer>
                         <Checkbox
                             checked = { this._getAllCompleted() }
-                            color1 = '#363636'
-                            color2 = '#fff'
+                            color1 = { PALETTE_COLOR_7 }
+                            color2 = { PALETTE_COLOR_2 }
                             onClick = { this._completeAllTasksAsync }
                         />
                         <span className = { Styles.completeAllTasks }>
