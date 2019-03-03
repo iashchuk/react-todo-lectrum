@@ -1,5 +1,6 @@
 // Core
 import React, { PureComponent } from 'react';
+import { string, bool, func } from 'prop-types';
 
 // Instruments
 import Styles from './styles.md.css';
@@ -16,6 +17,15 @@ const PALETTE_COLOR_2 = '#FFF';
 const PALETTE_COLOR_3 = '#3B8EF3';
 
 export default class Task extends PureComponent {
+    static propTypes = {
+        _removeTaskAsync: func.isRequired,
+        _updateTaskAsync: func.isRequired,
+        completed:        bool.isRequired,
+        favorite:         bool.isRequired,
+        id:               string.isRequired,
+        message:          string.isRequired,
+    };
+
     state = {
         isTaskEditing: false,
         newMessage:    this.props.message,
