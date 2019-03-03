@@ -59,20 +59,26 @@ export default class Scheduler extends Component {
         }
     };
 
-    _createTaskAsync = async (message) => {
-        try {
-            const { tasks } = this.state;
+    _createTaskAsync = async (evt) => {
+        evt.preventDefault();
+        const { tasks, newTaskMessage } = this.state;
 
-            this._setTasksFetchingState(true);
+        if (newTaskMessage.trim()) {
+            try {
+                this._setTasksFetchingState(true);
 
-            const task = await api.createTask(message);
+                const task = await api.createTask(newTaskMessage);
 
-            this.setState({
-                tasks: sortTasksByGroup([task, ...tasks]),
-            });
-            this._setTasksFetchingState(false);
-        } catch (error) {
-            console.error(error);
+                this.setState({
+                    tasks:          sortTasksByGroup([task, ...tasks]),
+                    newTaskMessage: '',
+                });
+                this._setTasksFetchingState(false);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            return null;
         }
     };
 
