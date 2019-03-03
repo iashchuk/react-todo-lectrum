@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
 
 class Form extends Component {
-    onSubmit = (evt) => {
-        const { newTaskMessage, _createTaskAsync } = this.props;
-
-        evt.preventDefault();
-        _createTaskAsync({
-            id:        Date.now(),
-            message:   newTaskMessage,
-            completed: false,
-            favorite:  false,
-        });
-        this.setState({ message: '' });
-    };
-
     render () {
-        const { newTaskMessage, _updateNewTaskMessage } = this.props;
+        const {
+            newTaskMessage,
+            _createTaskAsync,
+            _updateNewTaskMessage,
+        } = this.props;
 
         return (
-            <form onSubmit = { this.onSubmit }>
+            <form onSubmit = { _createTaskAsync }>
                 <input
                     required
                     maxLength = { 50 }

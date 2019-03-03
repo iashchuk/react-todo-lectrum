@@ -36,18 +36,18 @@ export const api = {
         return tasks;
     },
 
-    createTask: async (task) => {
+    createTask: async (message) => {
         const response = await fetch(MAIN_URL, {
             method: 'POST',
             headers,
-            body:   JSON.stringify(task),
+            body:   JSON.stringify({ message }),
         });
         const responseStatus = await checkStatus(response);
         const responseData = await toJSON(responseStatus);
 
-        const { data } = await responseData;
+        const { data: task } = await responseData;
 
-        return data;
+        return task;
     },
 
     removeTask: async (id) => {

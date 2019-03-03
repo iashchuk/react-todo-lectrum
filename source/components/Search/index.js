@@ -8,7 +8,7 @@ class Search extends Component {
         return (
             <input
                 placeholder = { searchText }
-                type = 'text'
+                type = 'search'
                 value = { tasksFilter }
                 onChange = { _updateTasksFilter }
             />

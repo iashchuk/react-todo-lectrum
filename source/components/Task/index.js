@@ -12,8 +12,8 @@ import Edit from '../../theme/assets/Edit';
 import Star from '../../theme/assets/Star';
 
 const PALETTE_COLOR_1 = '#000';
-const PALETTE_COLOR_2 = '#fff';
-const PALETTE_COLOR_3 = '#3b8ef3';
+const PALETTE_COLOR_2 = '#FFF';
+const PALETTE_COLOR_3 = '#3B8EF3';
 
 export default class Task extends PureComponent {
     state = {
