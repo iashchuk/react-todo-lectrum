@@ -59,11 +59,11 @@ export const api = {
         await checkStatus(response);
     },
 
-    updateTask: async (tasks) => {
+    updateTask: async (task) => {
         const response = await fetch(MAIN_URL, {
             method: 'PUT',
             headers,
-            body:   JSON.stringify(tasks),
+            body:   JSON.stringify([task]),
         });
 
         const responseStatus = await checkStatus(response);
