@@ -29,7 +29,6 @@ export default class Task extends PureComponent {
     state = {
         isTaskEditing: false,
         newMessage:    this.props.message,
-        completed:     false,
     };
 
     taskInput = React.createRef();
@@ -66,8 +65,8 @@ export default class Task extends PureComponent {
         });
     };
 
-    _updateNewTaskMessage = (evt) => {
-        this.setState({ newMessage: evt.target.value });
+    _updateNewTaskMessage = (event) => {
+        this.setState({ newMessage: event.target.value });
     };
 
     _updateTask = () => {
@@ -114,13 +113,13 @@ export default class Task extends PureComponent {
         _removeTaskAsync(id);
     };
 
-    _updateTaskMessageOnKeyDown = (evt) => {
+    _updateTaskMessageOnKeyDown = (event) => {
         const { newMessage } = this.state;
 
         if (newMessage.trim()) {
-            if (evt.key === 'Enter') {
+            if (event.key === 'Enter') {
                 this._updateTask();
-            } else if (evt.key === 'Escape') {
+            } else if (event.key === 'Escape') {
                 this._cancelUpdatingTaskMessage();
             }
         } else {

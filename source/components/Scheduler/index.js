@@ -39,8 +39,8 @@ export default class Scheduler extends Component {
         }
     };
 
-    _createTaskAsync = async (evt) => {
-        evt.preventDefault();
+    _createTaskAsync = async (event) => {
+        event.preventDefault();
         const { tasks, newTaskMessage } = this.state;
 
         if (newTaskMessage.trim()) {
@@ -98,8 +98,8 @@ export default class Scheduler extends Component {
         });
     };
 
-    _updateTasksFilter = (evt) => {
-        const { value } = evt.target;
+    _updateTasksFilter = (event) => {
+        const { value } = event.target;
 
         this.setState({ tasksFilter: value.toLowerCase() });
     };
@@ -116,8 +116,8 @@ export default class Scheduler extends Component {
         });
     };
 
-    _updateNewTaskMessage = (evt) => {
-        this.setState({ newTaskMessage: evt.target.value.trim() });
+    _updateNewTaskMessage = (event) => {
+        this.setState({ newTaskMessage: event.target.value });
     };
 
     _getAllCompleted = () => {
