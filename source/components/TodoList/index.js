@@ -7,7 +7,7 @@ import Task from '../Task';
 
 export default class TodoList extends Component {
     render () {
-        const { tasks, onUpdate, onDelete } = this.props;
+        const { tasks, _updateTaskAsync, _removeTaskAsync } = this.props;
 
         const todoList = tasks.map((task) => {
             const { id, ...taskProps } = task;
@@ -17,8 +17,8 @@ export default class TodoList extends Component {
                     id = { id }
                     key = { id }
                     { ...taskProps }
-                    onDelete = { () => onDelete(id) }
-                    onUpdate = { onUpdate }
+                    _removeTaskAsync = { () => _removeTaskAsync(id) }
+                    _updateTaskAsync = { _updateTaskAsync }
                 />
             );
         });

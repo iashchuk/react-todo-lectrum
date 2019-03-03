@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
 
 class Search extends Component {
-    state = {
-        term: '',
-    };
-
-    onChange = (evt) => {
-        const term = evt.target.value;
-
-        this.setState({
-            term,
-        });
-        this.props.onSearchChange(term);
-    };
-
     render () {
         const searchText = 'Поиск';
+        const { tasksFilter, _updateTasksFilter } = this.props;
 
         return (
             <input
                 placeholder = { searchText }
                 type = 'text'
-                value = { this.state.term }
-                onChange = { this.onChange }
+                value = { tasksFilter }
+                onChange = { _updateTasksFilter }
             />
         );
     }
