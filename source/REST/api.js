@@ -83,13 +83,7 @@ export const api = {
         });
 
         await Promise.all(response)
-            .then((resolve) => {
-                resolve.forEach((item) => {
-                    if (item.status !== 200) {
-                        throw new Error('Tasks were not updated.');
-                    }
-                });
-            })
+            .then((resolve) => resolve.forEach((result) => checkStatus(result)))
             .catch((error) => `${error.message}`);
     },
 };

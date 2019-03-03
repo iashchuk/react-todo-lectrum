@@ -114,22 +114,28 @@ export default class Scheduler extends Component {
     };
 
     onCompleteAllTasks = async () => {
+        const { tasks } = this.state;
+
         this.setState({
             isLoading: true,
         });
 
-        const completedTasks = this.state.tasks.map((task) => {
+        const completedTasks = await tasks.map((task) => {
             task.completed = true;
 
             return task;
         });
 
-        const updatedTasks = await api.updateTask(completedTasks);
+        await api.completeAllTasks(completedTasks);
 
-        this.setState({
-            tasks:     sortTasksByGroup(updatedTasks),
+        this.setState((prevState) => ({
+            tasks: prevState.tasks.map((task) => {
+                task.completed = true;
+
+                return task;
+            }),
             isLoading: false,
-        });
+        }));
     };
 
     render () {
