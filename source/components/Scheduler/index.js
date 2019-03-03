@@ -24,22 +24,6 @@ export default class Scheduler extends Component {
         this._fetchTasksAsync();
     }
 
-    searchTask = (tasks, tasksFilter) => {
-        if (!tasksFilter.length) {
-            return tasks;
-        }
-
-        return tasks.filter((task) => {
-            return task.message
-                .toLowerCase()
-                .includes(tasksFilter.toLowerCase());
-        });
-    };
-
-    _updateNewTaskMessage = (evt) => {
-        this.setState({ newTaskMessage: evt.target.value.trim() });
-    };
-
     _fetchTasksAsync = async () => {
         try {
             this._setTasksFetchingState(true);
@@ -108,10 +92,32 @@ export default class Scheduler extends Component {
         this._setTasksFetchingState(false);
     };
 
+    _setTasksFetchingState = (isTasksFetching) => {
+        this.setState({
+            isTasksFetching,
+        });
+    };
+
     _updateTasksFilter = (evt) => {
         const { value } = evt.target;
 
         this.setState({ tasksFilter: value.toLowerCase() });
+    };
+
+    _filterTasks = (tasks, tasksFilter) => {
+        if (!tasksFilter.length) {
+            return tasks;
+        }
+
+        return tasks.filter((task) => {
+            return task.message
+                .toLowerCase()
+                .includes(tasksFilter.toLowerCase());
+        });
+    };
+
+    _updateNewTaskMessage = (evt) => {
+        this.setState({ newTaskMessage: evt.target.value.trim() });
     };
 
     _getAllCompleted = () => {
@@ -120,17 +126,11 @@ export default class Scheduler extends Component {
         return tasks.every((task) => task.completed);
     };
 
-    _setTasksFetchingState = (isTasksFetching) => {
-        this.setState({
-            isTasksFetching,
-        });
-    };
-
     _completeAllTasksAsync = async () => {
         const { tasks } = this.state;
-        const notCompleted = tasks.filter((task) => !task.completed);
+        const notCompletedTasks = tasks.filter((task) => !task.completed);
 
-        if (notCompleted.length) {
+        if (notCompletedTasks.length) {
             try {
                 this._setTasksFetchingState(true);
 
@@ -166,17 +166,14 @@ export default class Scheduler extends Component {
             isTasksFetching,
         } = this.state;
 
-        const searchTasks = this.searchTask(tasks, tasksFilter);
+        const filteredTasks = this._filterTasks(tasks, tasksFilter);
 
-        const tasksJSX = searchTasks.map((task) => {
-            const { id, ...taskProps } = task;
-
+        const tasksJSX = filteredTasks.map((task) => {
             return (
                 <Task
-                    id = { id }
-                    key = { id }
-                    { ...taskProps }
-                    _removeTaskAsync = {this._removeTaskAsync }
+                    key = { task.id }
+                    { ...task }
+                    _removeTaskAsync = { this._removeTaskAsync }
                     _updateTaskAsync = { this._updateTaskAsync }
                 />
             );

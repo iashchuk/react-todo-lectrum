@@ -29,6 +29,7 @@ export default class Task extends PureComponent {
     state = {
         isTaskEditing: false,
         newMessage:    this.props.message,
+        completed:     false,
     };
 
     taskInput = React.createRef();
