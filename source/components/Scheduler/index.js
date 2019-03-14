@@ -130,34 +130,24 @@ export default class Scheduler extends Component {
     };
 
     _completeAllTasksAsync = async () => {
-        const { tasks } = this.state;
-        const notCompletedTasks = tasks.filter((task) => !task.completed);
-
-        if (notCompletedTasks.length) {
-            try {
-                this._setTasksFetchingState(true);
-
-                const completedTasks = await tasks.map((task) => {
-                    task.completed = true;
-
-                    return task;
-                });
-
-                await api.completeAllTasks(completedTasks);
-
-                this.setState((prevState) => ({
-                    tasks: prevState.tasks.map((task) => {
-                        task.completed = true;
-
-                        return task;
-                    }),
-                }));
-                this._setTasksFetchingState(false);
-            } catch (error) {
-                console.error(error);
+        try {
+            if (this._getAllCompleted()) {
+                return null;
             }
-        } else {
-            return null;
+
+            this._setTasksFetchingState(true);
+
+            await api.completeAllTasks(this.state.tasks);
+
+            this.setState(({ tasks }) => ({
+                tasks: sortTasksByGroup(
+                    tasks.map((task) => ({ ...task, completed: true }))
+                ),
+            }));
+        } catch (error) {
+            console.log(error.message);
+        } finally {
+            this._setTasksFetchingState(false);
         }
     };
 
