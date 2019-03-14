@@ -68,22 +68,27 @@ export const api = {
 
         const responseStatus = await checkStatus(response);
         const responseData = await toJSON(responseStatus);
-        const { data: updatedTask } = await responseData;
+        const {
+            data: [updatedTask],
+        } = await responseData;
 
         return updatedTask;
     },
-
     completeAllTasks: async (tasks) => {
-        const response = tasks.map((task) => {
-            return fetch(MAIN_URL, {
-                method: 'PUT',
-                headers,
-                body:   JSON.stringify([task]),
-            });
-        });
+        const promises = [];
 
-        await Promise.all(response)
-            .then((resolve) => resolve.forEach((result) => checkStatus(result)))
-            .catch((error) => `${error.message}`);
+        for (const task of tasks) {
+            promises.push(
+                fetch(MAIN_URL, {
+                    method: 'PUT',
+                    headers,
+                    body:   JSON.stringify([{ ...task, completed: true }]),
+                })
+            );
+        }
+
+        const responses = await Promise.all(promises);
+
+        responses.every((result) => checkStatus(result));
     },
 };
