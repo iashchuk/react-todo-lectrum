@@ -99,13 +99,17 @@ export default class Task extends PureComponent {
     _toggleTaskCompletedState = () => {
         const { _updateTaskAsync, completed } = this.props;
 
-        _updateTaskAsync(this._getTaskShape({ completed: !completed }));
+        const taskToUpdate = this._getTaskShape({ completed: !completed });
+
+        _updateTaskAsync(taskToUpdate);
     };
 
     _toggleTaskFavoriteState = () => {
         const { _updateTaskAsync, favorite } = this.props;
 
-        _updateTaskAsync(this._getTaskShape({ favorite: !favorite }));
+        const taskToUpdate = this._getTaskShape({ favorite: !favorite });
+
+        _updateTaskAsync(taskToUpdate);
     };
 
     _removeTask = () => {
@@ -117,14 +121,22 @@ export default class Task extends PureComponent {
     _updateTaskMessageOnKeyDown = (event) => {
         const { newMessage } = this.state;
 
-        if (newMessage.trim()) {
-            if (event.key === 'Enter') {
-                this._updateTask();
-            } else if (event.key === 'Escape') {
-                this._cancelUpdatingTaskMessage();
-            }
-        } else {
+        if (!newMessage.length) {
             return null;
+        }
+        switch (event.key) {
+            case 'Enter': {
+                this._updateTask();
+                break;
+            }
+
+            case 'Escape': {
+                this._cancelUpdatingTaskMessage();
+                break;
+            }
+
+            default:
+                break;
         }
     };
 
