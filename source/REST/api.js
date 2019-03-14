@@ -68,9 +68,9 @@ export const api = {
 
         const responseStatus = await checkStatus(response);
         const responseData = await toJSON(responseStatus);
-        const { data } = await responseData;
+        const { data: updatedTask } = await responseData;
 
-        return data;
+        return updatedTask;
     },
 
     completeAllTasks: async (tasks) => {

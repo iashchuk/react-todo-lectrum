@@ -70,16 +70,17 @@ export default class Task extends PureComponent {
     };
 
     _updateTask = () => {
+        const { _updateTaskAsync, message } = this.props;
         const { newMessage } = this.state;
-        const { message, _updateTaskAsync } = this.props;
 
-        if (newMessage !== message) {
-            _updateTaskAsync(this._getTaskShape({ message: newMessage }));
+        if (message === newMessage) {
             this._setTaskEditingState(false);
-        }
-        this._setTaskEditingState(false);
 
-        return null;
+            return null;
+        }
+
+        _updateTaskAsync(this._getTaskShape({ message: newMessage }));
+        this._setTaskEditingState(false);
     };
 
     _updateTaskMessageOnClick = () => {

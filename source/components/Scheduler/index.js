@@ -73,8 +73,8 @@ export default class Scheduler extends Component {
 
             await api.removeTask(id);
 
-            this.setState((prevState) => ({
-                tasks: prevState.tasks.filter((task) => task.id !== id),
+            this.setState(({ tasks }) => ({
+                tasks: tasks.filter((task) => task.id !== id),
             }));
             this._setTasksFetchingState(false);
         } catch (error) {
@@ -83,18 +83,32 @@ export default class Scheduler extends Component {
     };
 
     _updateTaskAsync = async (changedTask) => {
-        this._setTasksFetchingState(true);
+        try {
+            this._setTasksFetchingState(true);
 
-        const updatedTask = await api.updateTask(changedTask);
+            const updatedTask = await api.updateTask(changedTask);
 
-        this.setState((prevState) => ({
-            tasks: sortTasksByGroup(
-                prevState.tasks.map((task) =>
-                    task.id === updatedTask[0].id ? updatedTask[0] : task
-                )
-            ),
-        }));
-        this._setTasksFetchingState(false);
+            this.setState(({ tasks }) => {
+                const indexToReplace = tasks.indexOf(
+                    tasks.find((task) => task.id === changedTask.id)
+                );
+                const newTasks = [
+                    ...tasks.filter((task) => task.id !== changedTask.id)
+                ];
+
+                newTasks.splice(indexToReplace, 0, updatedTask);
+
+                const sortedTasks = sortTasksByGroup(newTasks);
+
+                return {
+                    tasks: sortedTasks,
+                };
+            });
+        } catch (error) {
+            console.log(error.message);
+        } finally {
+            this._setTasksFetchingState(false);
+        }
     };
 
     _setTasksFetchingState = (isTasksFetching) => {
